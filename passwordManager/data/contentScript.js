@@ -1,13 +1,15 @@
 //Content script to be attached to every web page
+// Assuming only username and password and only one form
 
-var myLinkBasedProfile = document.form;  //retrieve the form on the page
+var myLinkBasedProfile = [];
+myLinkBasedProfile = document.forms;  //retrieve the form on the page
 var myLinkURI = document.documentURI;    //retrieve the url if the site
 var mySubmitButton;
 var myLinkBasedUsername;
 var myLinkBasedPassword;
  
-for(var i=0 ; i < myLinkBasedProfile.elements.length; i++){
-  var myFormElement=myLinkBasedProfile[i];
+for(var i=0 ; i < myLinkBasedProfile[0].elements.length; i++){
+  var myFormElement=myLinkBasedProfile[0].elements[i];
   
   if(myFormElement.getAttribute('type')=='submit')          //identifying the submit button
     mySubmitButton=myFormElement;
