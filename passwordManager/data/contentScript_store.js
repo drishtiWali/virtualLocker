@@ -9,18 +9,10 @@ var myLinkBasedPasswordIndex;
 var myLinkBasedPassword;
 var stopSignal = 0;
  
-var hovering = function(){                                                        //on clicking the submit button 
-  myLinkBasedUsername=document.forms[0].elements[myLinkBasedUsernameIndex].value;//send the username and password to main.js
-  myLinkBasedPassword=document.forms[0].elements[myLinkBasedPasswordIndex].value;
-  self.port.emit("myLinkBasedUsername",document.forms[0].elements[myLinkBasedUsernameIndex].value);
-  self.port.emit("myLinkBasedPassword",document.forms[0].elements[myLinkBasedPasswordIndex].value);
-      }
-/*var submitting = function(){
-	 
-	 console.log(myLinkBasedUsername);
-	 self.port.emit("Username",myLinkBasedUsername);
-	 
-}*/
+self.port.on("Submitting", function(){                                 //When signal received frm main about form submission      
+  self.port.emit("myLinkBasedUsername",document.forms[0].elements[myLinkBasedUsernameIndex].value);//send username
+  self.port.emit("myLinkBasedPassword",document.forms[0].elements[myLinkBasedPasswordIndex].value);//send password
+});
 myLinkURI = document.documentURI; 
 self.port.emit("Site",myLinkURI);              //send the url of the site to the addon script
 
@@ -40,7 +32,7 @@ self.port.on("stopSignal",function(stopSignal){
           myLinkBasedPasswordIndex=i;
       }
       console.log("hi from store content script");
-      document.forms[0].elements[mySubmitButtonIndex].onmouseover = hovering;
+      
     }
   }
 });

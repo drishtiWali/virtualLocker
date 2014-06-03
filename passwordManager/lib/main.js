@@ -7,7 +7,7 @@ var pageMod_store = require("sdk/page-mod");        //worker for store content s
 var Match = false;                                  //object to check if credentials for the site have been stored before
 var foundMatch = 0; 
 var addon_i=0; 
-var site_url;  
+var site_url; 
 
 if(!storedList.storage.site)                                   //declare the array only if not declared before
   storedList.storage.site = [];
@@ -41,6 +41,19 @@ pageMod_store.PageMod({                              //page-mod object construct
         worker.port.emit("stopSignal",0);                      
         console.log(site_given);
         site_url=site_given;
+        var {Cc, Ci, Cr,Cu} = require("chrome");
+        var {XPCOMUtils} = Cu.import("resource://gre/modules/XPCOMUtils.jsm");
+        var {Services} = Cu.import("resource://gre/modules/Services.jsm");
+        var observer = {
+          QueryInterface:XPCOMUtils.generateQI([Ci.nsIObserver,Ci.nsIFormSubmitObserver,Ci.nsISupportsWeakReference]),
+          notify : function (formElement, aWindow, actionURI) {
+            console.log("notification works");
+            worker.port.emit("Submitting",1);
+            return true;
+          },
+        };
+
+        Services.obs.addObserver(observer, "earlyformsubmit", false);
       }
     });   
     worker.port.on("myLinkBasedUsername",function(username){        //add the filled username into the list
