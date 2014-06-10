@@ -4,3 +4,5 @@ Project phase 2
 (b) Using the password details to autofill the login of websites 
 
 (c) Storing and retrieving  details from indexed-db
+
+(d) Combining UI, localStorage, encryption and basic addon code to form complete offline addon
