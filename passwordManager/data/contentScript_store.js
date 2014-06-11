@@ -24,12 +24,17 @@ self.port.on("stopSignal",function(stopSignal){
         
         if(myFormElement.type == 'submit')                         //identifying the submit button
           mySubmitButtonIndex=i;
-  
-        else if(myFormElement.getAttribute('type')=='text')       //identifying the username and retrieving it
-          myLinkBasedUsernameIndex=i; 
    
-        else if(myFormElement.getAttribute('type')=='password')   //identifying the password and retrieving it
+        else if(myFormElement.getAttribute('type')=='password'){   //identifying the password and retrieving it
           myLinkBasedPasswordIndex=i;
+          for(var j=i-1;j>=0;j--)
+          {
+            if(document.forms[0].elements[j].type=='text'){
+              myLinkBasedUsernameIndex = j;
+              break;
+            }          
+          }
+        }
       }
       console.log("hi from store content script");
       

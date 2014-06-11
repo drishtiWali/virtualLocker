@@ -1,11 +1,16 @@
 var data = require("sdk/self").data;                                        //to refer to all scripts in data directory
+<<<<<<< HEAD
 var loginPageStore = require("./loginPageStore");
+=======
+
+>>>>>>> a1ae630cbb8926c602cbbb7ebdb1b076bc223ad1
 var database = require("./database.js");
 var version ;
 var entry_page = require("sdk/panel").Panel({              //panel for login or sign up
   contentURL: data.url("menu.html")
 });
 
+<<<<<<< HEAD
 var num1 = 1;
 
 var logoff = require("sdk/page-mod");
@@ -17,6 +22,10 @@ var foundMatch = 0;
 var addon_i=0; */
 var site_url;      
 
+=======
+var logoff = require("sdk/page-mod");
+
+>>>>>>> a1ae630cbb8926c602cbbb7ebdb1b076bc223ad1
 require("sdk/ui/button/action").ActionButton({               //attaching the panel to a button
   id: "show-panel",
   label: "Show Panel",
@@ -41,6 +50,7 @@ function handleClick(state) {                                        //called to
   entry_page.show();
 }
 
+<<<<<<< HEAD
 entry_page.port.on("signal", function (choice) {           //send signal wheather login info or sign up info is being sent
   if(choice==2&&entry_page.isShowing)                                                   //sign in info is sent
   {
@@ -59,10 +69,33 @@ entry_page.port.on("signal", function (choice) {           //send signal wheathe
         });
         count++;
       }
+=======
+entry_page.on("show", function() {                                //when heard about need to show with the web browser
+  entry_page.port.emit("show");                                   //send message to panel to show
+});
+
+database.deleteAll();
+
+entry_page.port.on("signal", function (choice) {                //whenever user clicks on a button on panel
+  console.log(choice);                                         //send signal wheather login info or sign up info is being sent
+  if(choice==2)                                                   //sign in info is sent
+  {
+    entry_page.port.on("Username",function(username){            //get username
+      createUsername=username;
+      console.log("got username");
+      entry_page.port.on("Password",function(password){
+        console.log("got password");
+        currentPassword=password;
+         database.create_local(createUsername);                              //create local store
+         database.create_global(createUsername,currentPassword);                             //create account globally
+        entry_page.hide();                                              // hide panel
+      });
+>>>>>>> a1ae630cbb8926c602cbbb7ebdb1b076bc223ad1
     });
   }
   else                                                          //login info is sent
   {
+<<<<<<< HEAD
 	 var count =1;
 	 entry_page.port.on("Username1",function(username){           //get username
 	   if(count == 1){
@@ -131,3 +164,18 @@ pageMod_store.PageMod({                              //page-mod object construct
   }
 });*/
 
+=======
+	 entry_page.port.on("Username",function(username){            //get username
+	   createUsername=username;
+	   console.log("got username");
+	   entry_page.port.on("Password",function(password){           //get password
+	     currentPassword=password;
+	     console.log("got password");
+	      //database.create_local(createUsername);                               //create local store
+	     //database.downloadGlobal(createUsername,password);                   //transfer data from global to local store
+	     entry_page.hide();
+	   });
+	 });
+   }  
+});
+>>>>>>> a1ae630cbb8926c602cbbb7ebdb1b076bc223ad1

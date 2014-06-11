@@ -6,6 +6,7 @@ var registerPassword = document.getElementById("signUpPassword");
 var loginSubmit = document.getElementById("loginSubmit");
 var signUpSubmit = document.getElementById("signUpSubmit");
 
+<<<<<<< HEAD
 if(loginSubmit){
   loginSubmit.onclick = function(event){
     addon.port.emit("signal",1);
@@ -43,4 +44,16 @@ if(cancelButton){
   cancelButton.onclick = function(event){
     addon.port.emit("logoffSignal",0);
   }
+=======
+loginSubmit.onclick = function(event){
+  addon.port.emit("signal",1);
+  addon.port.emit("Username",loginUsername.value);
+  addon.port.emit("Password",loginPassword.value);
+}
+
+signUpSubmit.onclick = function(event){
+  addon.port.emit("signal",2);
+  addon.port.emit("Username",registerUsername.value);
+  addon.port.emit("Password",registerPassword.value);
+>>>>>>> a1ae630cbb8926c602cbbb7ebdb1b076bc223ad1
 }
