@@ -6,3 +6,5 @@ Project phase 2
 (c) Storing and retrieving  details from indexed-db
 
 (d) Combining UI, localStorage, encryption and basic addon code to form complete offline addon
+
+(e) Storing and retrieving details from online database at mongolab via nodejs server
