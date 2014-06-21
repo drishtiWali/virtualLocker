@@ -1,5 +1,5 @@
 var mongojs = require("mongojs");                                        //using mongojs module
-var uri = "mongodb://drishti:oscarwali@ds053937.mongolab.com:53937/virtual_locker";   //connecting db
+var uri = "mongodb://<dbusername>:<dbpassword>@ds053937.mongolab.com:53937/virtual_locker";   //connecting db
 var db = mongojs.connect(uri);                    
 var http = require('http');                                  //for setting up server                     
 var masterUsername="",password="",key="";      //for initialsing and converting all variables to string while passing             
