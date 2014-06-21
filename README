@@ -1,10 +1,12 @@
-Project phase 2 
+Project phase 3 
 (a) Storing password details from the user after prompting the user
 
 (b) Using the password details to autofill the login of websites 
 
 (c) Storing and retrieving  details from indexed-db
 
-(d) Combining UI, localStorage, encryption and basic addon code to form complete offline addon
+(d) Combining UI,localStorage, encryption and basic addon code to form complete offline addon
 
 (e) Storing and retrieving details from online database at mongolab via nodejs server
+
+(f) Connecting offline addon code with server and storing and retrieving from online
