@@ -95,24 +95,18 @@ function addItem(siteUrl,username,password){
   siteUrl = crypto.encrypt(siteUrl,masterPassword).toString();
   username = crypto.encrypt(username,masterPassword).toString();
   password = crypto.encrypt(password,masterPassword).toString();
+  var credential={
+  "url": siteUrl,
+  "username": username,
+  "password": password
+  };
+  var sendCredential = JSON.stringify(credential);
+  console.log(sendCredential);
   var postUrl = Request({
     url: "http://localhost:8080/",
-    content: '5'+siteUrl,
+    content: sendCredential,
     onComplete: function (response1) {
-      console.log("global addItem");
-      var postUsername = Request({
-        url: "http://localhost:8080/",
-        content: '6'+username,
-        onComplete: function(response2){
-          var postPassword = Request({
-            url: "http://localhost:8080/",
-            content: '7'+password,
-            onComplete: function(response3){
-              console.log("Credentials sent to online database");
-            }
-          }).post(); //first url, then username and then password is sent
-        }
-      }).post();
+      console.log("Credentials sent to online database");
     }
   }).post();
 }

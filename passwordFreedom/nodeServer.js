@@ -1,5 +1,5 @@
 var mongojs = require("mongojs");                                        //using mongojs module
-var uri = "mongodb://<dbusername>:<dbpassword>@ds053937.mongolab.com:53937/virtual_locker";   //connecting db
+var uri = "mongodb://drishti:oscarwali@ds053937.mongolab.com:53937/virtual_locker";   //connecting db
 var db = mongojs.connect(uri);                    
 var http = require('http');                                  //for setting up server                     
 var masterUsername="",password="",key="";      //for initialsing and converting all variables to string while passing             
@@ -7,8 +7,8 @@ var done=0,doneSignin=0,getPassword=0,getUrl=0,getUsername=0,gotCredentials=0;  
 var gotUsername=0,gotUrl=0;
 var events = require('events');
 var eventEmitter = new events.EventEmitter();
-var masterUsernameMain;
-var url="",username="",pass="";
+var masterUsernameMain,credential;
+var url="",username="",pass="",jsonCre="";
 
 http.createServer(function (request, response){
   if(request.method=="POST"){                      //when addon sends url/username/password
@@ -54,27 +54,12 @@ http.createServer(function (request, response){
         getPassword=1;
       } 
       
-      else if(body[0]=='5'&&gotUrl==1){
-        for(var i=1;i<body.length;i++)
-          url+=body;
-          gotUrl++;
-          console.log("from server about 1");
+      else{
+        credential = JSON.parse(chunk);
+          console.log(credential.username);
+          gotCredentials=1;
       }
       
-      else if(body[0]=='6'&&gotUsername==1){
-        for(var i=1;i<body.length;i++)
-          username+=body;
-          gotUsername++;
-          console.log("from server");
-      }
-      
-      else if(body[0]=='7'&&gotCredentials==1){
-        for(var i=1;i<body.length;i++)
-          pass+=body;
-        gotCredentials++;
-        
-      }
-          
     });
     
     
@@ -83,7 +68,7 @@ http.createServer(function (request, response){
         db.createCollection(masterUsername,function(err,col){
           masterUsernameMain=masterUsername;
           if(err){
-            console.log(err);
+            console.log(err+"in response");
             return;
           }
           console.log("Created collection");
@@ -179,16 +164,14 @@ http.createServer(function (request, response){
       else if(gotCredentials==1){
         var col = db.collection(masterUsernameMain);
         gotCredentials=0;
-        col.insert({"url": url, "username": username, "password": pass},function(err,records){
+        col.insert({"url": credential.url, "username": credential.username, "password": credential.password},function(err,records){
           if(err){
             console.log("There was an error inserting data globally");
             console.log(err);
             return;
           }
           console.log("Inserted the data");
-          url="";
-          username="";
-          pass="";
+          jsonCre="";
           response.end();                  
         });  
       }
